@@ -5,4 +5,8 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ../fashion-dataset:/project/static/recommend/
+      - ./static/uploads:/project/static/uploads
+      - ./static/images:/project/static/images
+      - ./styles.csv:/project/styles.csv
+      - ./embeddings.npy:/project/embeddings.npy
+      - ./image_paths.npy:/project/image_paths.npy
