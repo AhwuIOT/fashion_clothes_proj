@@ -1,0 +1,21 @@
+<!doctype html>
+<title>Fashion Recommendation</title>
+<h1>Upload a fashion item</h1>
+<form method=post enctype=multipart/form-data>
+  <input type=file name=image>
+  <input type=submit value=Upload>
+</form>
+
+{% if query_img %}
+<hr>
+<h2>Query Image</h2>
+<img src="{{ query_img }}" height="300"><br>
+
+<h2>Top Recommendations</h2>
+{% for img, score in zip(rec_imgs, rec_scores) %}
+  <div style="display:inline-block;margin:10px;text-align:center;">
+    <img src="{{ img }}" height="200"><br>
+    Similarity: {{ score }}
+  </div>
+{% endfor %}
+{% endif %}
