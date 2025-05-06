@@ -4,3 +4,4 @@ numpy==1.22
 opencv-python
 pillow
 scikit-learn
+matplotlib

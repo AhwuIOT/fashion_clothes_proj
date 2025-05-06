@@ -12,7 +12,7 @@
 <img src="{{ query_img }}" height="300"><br>
 
 <h2>Top Recommendations</h2>
-{% for img, score in zip(rec_imgs, rec_scores) %}
+{% for img, score in recommendations %}
   <div style="display:inline-block;margin:10px;text-align:center;">
     <img src="{{ img }}" height="200"><br>
     Similarity: {{ score }}

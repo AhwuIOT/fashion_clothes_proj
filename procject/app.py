@@ -8,12 +8,19 @@ from sklearn.metrics.pairwise import cosine_similarity
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
+import shutil
+
+# 複製推薦圖片到 static 資料夾內供瀏覽器顯示
+
+
+
 # Load precomputed embeddings
 embeddings = np.load("embeddings.npy")
 image_paths = np.load("image_paths.npy")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    static_rec_paths = []
     if request.method == "POST":
         file = request.files["image"]
         if file:
@@ -26,11 +33,17 @@ def index():
             top_indices = np.argsort(sims)[-6:-1][::-1]
             rec_imgs = [image_paths[i] for i in top_indices]
             rec_scores = [round(sims[i], 2) for i in top_indices]
-
+            for i, img_path in enumerate(rec_imgs):
+                filename = os.path.basename(img_path)
+                static_path = os.path.join("static", "recommend", filename)
+                shutil.copyfile(img_path, static_path)
+                static_rec_paths.append(static_path)
+            recommendations = list(zip(static_rec_paths, rec_scores))
+            
             return render_template("index.html",
-                                   query_img=filepath,
-                                   rec_imgs=rec_imgs,
-                                   rec_scores=rec_scores)
+                       query_img=filepath,
+                       recommendations=recommendations)
+            
     return render_template("index.html")
 
 if __name__ == "__main__":

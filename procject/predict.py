@@ -2,10 +2,12 @@ import tensorflow as tf
 import numpy as np
 import sys
 from tensorflow.keras.preprocessing import image
+
+
 import matplotlib.pyplot as plt
 
 # 載入模型
-model = tf.keras.models.load_model("resnet50_embed_model")
+model = tf.keras.models.load_model("resnet50v2_embed_model")
 print("✅ 模型載入成功！")
 
 # 圖片前處理函數
@@ -15,7 +17,7 @@ def preprocess_image(img_path, target_size=(224, 224)):
     img_array = np.expand_dims(img_array, axis=0)
 
     # 對應 ImageNet 正規化（和 ResNet50 一致）
-    img_array = tf.keras.applications.resnet50.preprocess_input(img_array)
+    img_array = tf.keras.applications.resnet_v2.preprocess_input(img_array)
     return img_array
 
 # 預測函數
